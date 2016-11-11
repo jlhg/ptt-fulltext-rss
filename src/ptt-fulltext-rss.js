@@ -28,21 +28,25 @@ function doGet(e) {
     var html = UrlFetchApp.fetch(url).getContentText();
     Logger.log(url);
 
-    var p = /<div id="main-content" class="bbs-screen bbs-content"><div class="article-metaline"><span class="article-meta-tag">作者<\/span><span class="article-meta-value">(.+?)<\/span><\/div>(<div class="article-metaline-right"><span class="article-meta-tag">看板<\/span><span class="article-meta-value">(.+?)<\/span><\/div>)?<div class="article-metaline"><span class="article-meta-tag">標題<\/span><span class="article-meta-value">(.+?)<\/span><\/div><div class="article-metaline"><span class="article-meta-tag">時間<\/span><span class="article-meta-value">(.+?)<\/span><\/div>([^]*?)<span class="f2">※ 發信站: 批踢踢實業坊/;
+    var p = /<div id="main-content" class="bbs-screen bbs-content"><div class="article-metaline"><span class="article-meta-tag">作者<\/span><span class="article-meta-value">(.+?)<\/span><\/div>(<div class="article-metaline-right"><span class="article-meta-tag">看板<\/span><span class="article-meta-value">(.+?)<\/span><\/div>)?<div class="article-metaline"><span class="article-meta-tag">標題<\/span><span class="article-meta-value">(.+?)<\/span><\/div>(<div class="article-metaline"><span class="article-meta-tag">時間<\/span><span class="article-meta-value">(.+?)<\/span><\/div>)?([^]*?)<span class="f2">※ 發信站: 批踢踢實業坊/;
     var m = p.exec(html);
     var aAuthor = m[1];
     var aBoard = m[3];
     var aTitle = m[4];
-    var aDate = m[5];
-    var aContent = m[6];
+    var aDate = m[6];
+    var aContent = m[7];
     var desc = '<pre>';
     if (aBoard) {
       desc += '看板：' + aBoard + "\n";
     }
-    desc += '作者：' + aAuthor + "\n" +
-            '標題：' + aTitle + "\n" +
-            '時間：' + aDate + "\n" +
-             aContent + '</pre>';
+
+    desc += '作者：' + aAuthor + "\n" + '標題：' + aTitle + "\n";
+
+    if (aDate) {
+      desc += '時間：' + aDate + "\n";
+    }
+
+    desc += aContent + '</pre>';
 
     Logger.log(aAuthor);
     Logger.log(aBoard);
