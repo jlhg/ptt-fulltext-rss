@@ -14,3 +14,7 @@ https://script.google.com/macros/s/.../exec?b=movie
 ```
 
 將以上網址貼到 RSS 閱讀器即可訂閱。
+
+## 無法訂閱的看板
+
+少數看板如 18 禁看板及英文板名有「.」的看板[無法透過 RSS 訂閱](https://www.ptt.cc/bbs/ask/M.1437038484.A.D3D.html)。
