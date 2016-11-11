@@ -26,24 +26,28 @@ function doGet(e) {
     var url = entries[i].getChild('id', atom).getText();
     var pubDate = entries[i].getChild('published', atom).getText();
     var html = UrlFetchApp.fetch(url).getContentText();
-    var p = /<div id="main-content" class="bbs-screen bbs-content"><div class="article-metaline"><span class="article-meta-tag">作者<\/span><span class="article-meta-value">(.+?)<\/span><\/div><div class="article-metaline-right"><span class="article-meta-tag">看板<\/span><span class="article-meta-value">(.+?)<\/span><\/div><div class="article-metaline"><span class="article-meta-tag">標題<\/span><span class="article-meta-value">(.+?)<\/span><\/div><div class="article-metaline"><span class="article-meta-tag">時間<\/span><span class="article-meta-value">(.+?)<\/span><\/div>([^]*?)<span class="f2">※ 發信站: 批踢踢實業坊/;
+    Logger.log(url);
+
+    var p = /<div id="main-content" class="bbs-screen bbs-content"><div class="article-metaline"><span class="article-meta-tag">作者<\/span><span class="article-meta-value">(.+?)<\/span><\/div>(<div class="article-metaline-right"><span class="article-meta-tag">看板<\/span><span class="article-meta-value">(.+?)<\/span><\/div>)?<div class="article-metaline"><span class="article-meta-tag">標題<\/span><span class="article-meta-value">(.+?)<\/span><\/div><div class="article-metaline"><span class="article-meta-tag">時間<\/span><span class="article-meta-value">(.+?)<\/span><\/div>([^]*?)<span class="f2">※ 發信站: 批踢踢實業坊/;
     var m = p.exec(html);
     var aAuthor = m[1];
-    var aBoard = m[2];
-    var aTitle = m[3];
-    var aDate = m[4];
-    var aContent = m[5];
-    var desc = '<pre>' +
-               '看板：' + aBoard + "\n" +
-               '作者：' + aAuthor + "\n" +
-               '標題：' + aTitle + "\n" +
-               '時間：' + aDate + "\n" +
-                aContent + '</pre>';
+    var aBoard = m[3];
+    var aTitle = m[4];
+    var aDate = m[5];
+    var aContent = m[6];
+    var desc = '<pre>';
+    if (aBoard) {
+      desc += '看板：' + aBoard + "\n";
+    }
+    desc += '作者：' + aAuthor + "\n" +
+            '標題：' + aTitle + "\n" +
+            '時間：' + aDate + "\n" +
+             aContent + '</pre>';
 
-    Logger.log(title);
-    Logger.log(url);
-    Logger.log(pubDate);
-    Logger.log(formatDate(pubDate));
+    Logger.log(aAuthor);
+    Logger.log(aBoard);
+    Logger.log(aTitle);
+    Logger.log(aDate);
 
     rss.addItem({
       title: title,
